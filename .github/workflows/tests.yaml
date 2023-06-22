@@ -48,4 +48,4 @@ jobs:
         run: composer validate
 
       - name: Execute tests
-        run: vendor/bin/phpunit --testdox
+        run: composer codeception

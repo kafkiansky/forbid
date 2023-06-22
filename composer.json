@@ -1,9 +1,13 @@
 {
-    "name": "kafkiansky/to-be-changed",
-    "description": "_____",
+    "name": "kafkiansky/forbid",
+    "description": "A psalm plugin that finds and forbids code smells.",
     "license": "MIT",
-    "type": "library",
-    "keywords": [],
+    "type": "psalm-plugin",
+    "keywords": [
+        "psalm",
+        "static analysis",
+        "plugin"
+    ],
     "authors": [
         {
             "name": "v.zanfir",
@@ -12,24 +16,26 @@
         }
     ],
     "require": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "ext-simplexml": "*",
+        "vimeo/psalm": "^5.12"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.31",
         "phpunit/phpunit": "^10.2",
         "squizlabs/php_codesniffer": "^3.7",
-        "vimeo/psalm": "^5.12"
+        "weirdan/codeception-psalm-module": "^0.14.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Kafkiansky\\_____\\": "src/"
+            "Kafkiansky\\Forbid\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Kafkiansky\\_____\\Tests\\": "tests/"
+            "Kafkiansky\\Forbid\\Tests\\": "tests/"
         }
     },
     "config": {
@@ -38,13 +44,21 @@
         },
         "sort-packages": true
     },
+    "extra": {
+        "psalm": {
+            "pluginClass": "Kafkiansky\\Forbid\\Plugin"
+        }
+    },
     "scripts": {
+        "codeception": [
+            "codecept build",
+            "codecept run -v -g forbid"
+        ],
         "phpcbf": "./vendor/bin/phpcbf -p --standard=phpcs.xml src",
         "phpcs": "./vendor/bin/phpcs --standard=phpcs.xml",
-        "phpunit": "./vendor/bin/phpunit --testdox --do-not-cache",
         "psalm": "./vendor/bin/psalm --no-cache",
         "test": [
-            "@phpunit",
+            "@codeception",
             "@psalm",
             "@phpcs"
         ]
